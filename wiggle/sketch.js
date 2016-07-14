@@ -16,7 +16,7 @@ var count = 0;
 var ropeLength = 918 / 20;
 
 var points = [];
-
+var displayCircles = false;
 
 for (var i = 0; i < 20; i++)
 {
@@ -29,7 +29,7 @@ for (var i = 1; i < points.length; i++) {
 }
 */
 
-var explain = new PIXI.Text('Hover over vine',{fill: 0xd3d3d3});
+var explain = new PIXI.Text('Hover over vine (click for skeleton)',{fill: 0xd3d3d3});
 explain.anchor.x = 0.5;
 explain.x = renderer.width/2;
 explain.y = 15;
@@ -50,7 +50,8 @@ strip.y = renderer.height/2;
 stage.addChild(strip);
 
 strip.interactive = true;
-strip.on('mouseover', onButtonDown);
+strip.on('mouseover', onHover);
+strip.on('mousedown', onButtonDown);
 
 var g = new PIXI.Graphics();
 g.x = strip.x;
@@ -77,7 +78,9 @@ function animate() {
 
     // render it all
     renderer.render(stage);
-    renderPoints();
+    if(displayCircles){
+        renderPoints();
+    }
     requestAnimationFrame(animate);
 }
 
@@ -99,9 +102,18 @@ function renderPoints () {
     };
 }
 
-
 function onButtonDown() {
+    displayCircles = !displayCircles;
+    if(displayCircles){
+        g.visible = true;
+    }
+    else{
+        g.visible = false;
+        g.clear();
+    }
+}
 
+function onHover() {
 
   if(strip.scale.x > 0.7){
     TweenLite.to(strip.scale, 2, {x: 0.2, y: 0.2});

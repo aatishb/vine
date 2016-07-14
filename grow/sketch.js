@@ -11,7 +11,7 @@ document.body.appendChild(renderer.view);
 var stage = new PIXI.Container();
 
 var count = 0;
-var numPoints = 50;
+var numPoints = 100;
 // build a rope!
 var ropeLength = 918 / numPoints;
 

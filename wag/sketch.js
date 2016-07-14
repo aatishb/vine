@@ -29,7 +29,7 @@ for (var i = 1; i < points.length; i++) {
 }
 */
 
-var explain = new PIXI.Text('Hover over vine',{fill: 0xd3d3d3});
+var explain = new PIXI.Text('Hover over vine for skeleton',{fill: 0xd3d3d3});
 explain.anchor.x = 0.5;
 explain.x = renderer.width/2;
 explain.y = 15;
