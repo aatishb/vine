@@ -95,30 +95,45 @@ function renderPoints () {
 
 function onButtonDown() {
 
+    var duration = 3;  //duration (in seconds)
+    //var path = [{x:points[numPoints-1].x*strip.scale.x, y:points[numPoints-1].y*strip.scale.y},
+    //        {x:50, y:100}, {x:300, y:20}, {x:400, y:200}, {x:500, y:0},{x:600, y:-290},{x:700, y:-150}]; //points on the path (BezierPlugin will plot a Bezier through these). Adjust however you please.
+    var path = createPoints();
+    for (var i=0; i<path.length; i++){
+        path[i].x = path[i].x/0.2;
+        path[i].y = path[i].y/0.2;
+    }
 
-var duration = 3;  //duration (in seconds)
+    //var tl = new TimelineMax({repeat:10, yoyo:true});
 
-var path = [{x:points[numPoints-1].x*strip.scale.x, y:points[numPoints-1].y*strip.scale.y},
-            {x:50, y:100}, {x:300, y:20}, {x:400, y:200}, {x:500, y:0},{x:600, y:-290},{x:700, y:-150}]; //points on the path (BezierPlugin will plot a Bezier through these). Adjust however you please.
-//var path = [{x:300, y:20}, {x:400, y:200}, {x:500, y:0},{x:600, y:-290},{x:700, y:-150}]; //points on the path (BezierPlugin will plot a Bezier through these). Adjust however you please.
-//var path = [{x:0, y:0}, {x:800, y:0}]; //points on the path (BezierPlugin will plot a Bezier through these). Adjust however you please.
-
-for (var i=0; i<path.length; i++){
-    path[i].x = path[i].x/0.2;
-    path[i].y = path[i].y/0.2;
-}
-
-//var tl = new TimelineMax({repeat:10, yoyo:true});
-
-for (var i = 0; i < numPoints; i++)
-{
-    var j = numPoints - i - 1;
-    //create a tween for the point that travels the full path of the bezier
-    var t = TweenMax.to(points[i], duration, {bezier:path, paused:true, ease:Linear.easeNone});
-    //tween the progress of the tween so that each dot only travels a decreasing percentage of the full path
-    TweenLite.to(t, duration * i/numPoints, {progress:i/numPoints, ease:Linear.easeNone});//, delay:j*0.3});
-}
-
+    for (var i = 0; i < numPoints; i++)
+    {
+        var j = numPoints - i - 1;
+        //create a tween for the point that travels the full path of the bezier
+        var t = TweenMax.to(points[i], duration, {bezier:path, paused:true, ease:Linear.easeNone});
+        //tween the progress of the tween so that each dot only travels a decreasing percentage of the full path
+        TweenLite.to(t, duration * i/numPoints, {progress:i/numPoints, ease:Linear.easeNone});//, delay:j*0.3});
+    }
 
 }
 
+function createPoints() {
+
+  var newPoints = [{x:points[numPoints-1].x*strip.scale.x, y:points[numPoints-1].y*strip.scale.y}];
+  var count  = 70;
+  var dx = 10;
+  var wiggliness = 0.014;
+  for (var i = 1; i <= count; i++) {
+    newPoints.push({
+      x: newPoints[0].x + dx * i,
+      y: newPoints[i - 1].y + i * wiggliness * (randomBetween(0,21) - 10)
+    });
+  }
+
+  return newPoints;
+
+}
+
+function randomBetween(start, stop){
+    return Math.random()*(stop - start) + start;
+}
