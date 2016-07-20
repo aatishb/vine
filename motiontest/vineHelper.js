@@ -10,7 +10,7 @@ function vine(numPoints, texture, scale){
   this.strip.scale.x = scale.x;
   this.strip.scale.y = scale.y;
   this.strip.x = 20;
-  this.strip.y = randomBetween(0,renderer.height);
+  this.strip.y = randomBetween(150,renderer.height-150);
   stage.addChild(this.strip);
 
   this.g = new PIXI.Graphics();
@@ -22,11 +22,11 @@ function vine(numPoints, texture, scale){
 
   this.startMoving = function() {
 
-      var duration = 5;  //duration (in seconds)
+      var duration = randomBetween(3,7);  //duration (in seconds)
 
       var path = this.createPoints();
 
-      for (var i = 0; i < numPoints; i++)
+      for (var i = 1; i < numPoints; i++)
       {
           //create a tween for the point that travels the full path of the bezier
           var t = TweenMax.to(this.points[i], duration, {bezier:path, paused:true, ease:Linear.easeNone});
@@ -42,7 +42,7 @@ function vine(numPoints, texture, scale){
   this.createPoints = function() {
 
     var newPoints = [{x:this.points[numPoints-1].x*this.strip.scale.x, y:this.points[numPoints-1].y*this.strip.scale.y}];
-    var length = 1;
+    var length = randomBetween(0.8,1);
     var count  = 70;
     var dx = 10*length;
     var wiggliness = 0.014*length;
