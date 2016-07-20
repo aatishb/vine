@@ -10,14 +10,15 @@ function vine(numPoints, texture, scale){
   this.strip.scale.x = scale.x;
   this.strip.scale.y = scale.y;
   this.strip.x = 20;
-  this.strip.y = renderer.height/2;
+  this.strip.y = randomBetween(0,renderer.height);
+  stage.addChild(this.strip);
 
   this.g = new PIXI.Graphics();
   this.g.x = this.strip.x;
   this.g.y = this.strip.y;
-  this.strip.scale.x = scale.x;
-  this.strip.scale.y = scale.y;
-
+  this.g.scale.x = scale.x;
+  this.g.scale.y = scale.y;
+  stage.addChild(this.g);
 
   this.startMoving = function() {
 
@@ -81,6 +82,7 @@ function vine(numPoints, texture, scale){
           this.g.endFill();
       };
   }
+
 
 
 }
