@@ -75,15 +75,31 @@ var VineRenderer = function(opts) {
 
   function move(){
 
-    var duration = 10;
+    var duration = 5;
+    var tl = new TimelineMax({repeat:-1, yoyo:true});
 
     for (var i = 0; i < pointCount; i++)
     {
-        //create a tween for the point that travels the full path of the bezier
-        var t = TweenMax.to(points[i], duration, {bezier:{type:"cubic", values:bezierPoints}, paused:true, ease:Linear.easeNone});
-        //tween the progress of the tween so that each dot only travels a decreasing percentage of the full path
-        TweenLite.to(t, duration, {progress:i/pointCount, ease:Linear.ease});
+
+     var t = new TweenMax(points[i], duration, {
+        bezier:{
+          type:"cubic",
+          values:bezierPoints
+        },
+        ease:Linear.easeNone,
+        paused:true
+      });
+     var t2 = TweenLite.to(t, duration, {progress:i/pointCount, ease:Linear.ease});
+     tl.add(t2,0);
+     //tl.progress(0);
+
+    //create a tween for the point that travels the full path of the bezier
+    //var t = TweenMax.to(points[i], duration, {bezier:{type:"cubic", values:bezierPoints}, paused:true, ease:Linear.easeNone});
+    //tween the progress of the tween so that each dot only travels a decreasing percentage of the full path
+    //TweenLite.to(t, duration, {progress:i/pointCount, ease:Linear.ease});
     }
+
+    //tl.progress(0.5);
 
   }
 
